@@ -17,7 +17,7 @@ class Topic(models.Model):
 class Type(models.Model):
     name = models.CharField(max_length=50)
     icon = models.CharField(max_length=200)
-    clickIcon = models.CharField(max_length=200)
+    clickIcon = models.CharField(max_length=200, default='')
 
     def __str__(self):
         return str(self.name)
@@ -30,7 +30,7 @@ class Article(models.Model):
     author_id = models.IntegerField()
     img_url = models.CharField(max_length=200)
     helpful = models.BooleanField(default=False)
-    seen = models.IntegerField()
+    seen = models.IntegerField(default=0)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
