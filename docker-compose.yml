@@ -1,0 +1,25 @@
+version: '3.6'
+services:
+  db:
+    image: postgres:10.1-alpine
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - '5433:5432'
+  web:
+    build: .
+    command: python /code/manage.py migrate --noinput
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 80:8000
+    environment:
+      - SECRET_KEY=changemeinprod
+    depends_on:
+      - db
+volumes:
+  postgres_data:
