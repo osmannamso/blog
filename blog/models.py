@@ -18,6 +18,7 @@ class Type(models.Model):
     name = models.CharField(max_length=50)
     icon = models.CharField(max_length=200)
     clickIcon = models.CharField(max_length=200, default='')
+    themes = models.ManyToManyField(Theme)
 
     def __str__(self):
         return str(self.name)
