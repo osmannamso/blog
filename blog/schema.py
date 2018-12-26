@@ -52,6 +52,7 @@ class Query(object):
     theme = DjangoFilterConnectionField(ThemeNode, oid=graphene.Int())
     article = DjangoFilterConnectionField(ArticleNode, oid=graphene.Int())
     topic = DjangoFilterConnectionField(TopicNode, oid=graphene.Int())
+    type = DjangoFilterConnectionField(TypeNode, oid = graphene.Int())
     all_themes = DjangoFilterConnectionField(ThemeNode)
     all_articles = DjangoFilterConnectionField(ArticleNode, helpful=graphene.Boolean())
     all_topics = DjangoFilterConnectionField(TopicNode)
@@ -64,8 +65,8 @@ class Query(object):
     def resolve_topic(self,info,oid):
         return Topic.objects.get(pk=oid)
     def resolve_all_articles(self, info, **kwargs):
-        if kwargs.get('helpful') == True:
-            return Article.objects.filter(helpful=True)
-        elif kwargs.get('helpful' == False):
-            return Article.objects.filter(helpful=False)
+        if kwargs.get('helpful'):
+            return Article.objects.filter(type=kwargs.get('helpful'))
         return Article.objects.all()
+    def resolve_type(self, info, oid):
+        return Type.objects.filter(pk=oid)
