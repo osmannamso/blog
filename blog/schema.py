@@ -71,6 +71,9 @@ class Query(object):
             return Article.objects.filter(type=type)
         return Article.objects.all()
     def resolve_all_helpful_articles(self, info, **kwargs):
-        return Article.objects.filter(type=kwargs.get('type'), helpful=True)
+        type = kwargs.get('typeId')
+        if type:
+            return Article.objects.filter(type=type, helpful=True)
+        return Article.objects.filter(helpful=True)
     def resolve_type(self, info, oid):
         return Type.objects.filter(pk=oid)
