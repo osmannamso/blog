@@ -60,7 +60,7 @@ class Query(object):
     def resolve_theme(self, info, oid):
         return Theme.objects.filter(pk=oid)
     def resolve_article(self,info,oid):
-        return Article.objects.get(pk=oid)
+        return Article.objects.filter(pk=oid)
     def resolve_topic(self,info,oid):
         return Topic.objects.get(pk=oid)
     def resolve_all_articles(self, info, **kwargs):
