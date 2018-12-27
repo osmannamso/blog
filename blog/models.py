@@ -9,16 +9,7 @@ class Theme(models.Model):
 
 class Topic(models.Model):
     name = models.CharField(max_length=30)
-    theme = models.ForeignKey(Theme,on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.name)
-
-class Type(models.Model):
-    name = models.CharField(max_length=50)
-    icon = models.CharField(max_length=200)
-    clickIcon = models.CharField(max_length=200, default='')
-    themes = models.ManyToManyField(Theme)
+    theme = models.ForeignKey(Theme, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)
@@ -33,7 +24,6 @@ class Article(models.Model):
     helpful = models.BooleanField(default=False)
     seen = models.IntegerField(default=0)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.title)
