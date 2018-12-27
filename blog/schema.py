@@ -68,12 +68,12 @@ class Query(object):
     def resolve_all_articles(self, info, **kwargs):
         type = kwargs.get('typeId')
         if type:
-            return Article.objects.filter(type=type)
-        return Article.objects.all()
+            return Article.objects.filter(type=type).order_by('created_at')
+        return Article.objects.all().order_by('created_at')
     def resolve_all_helpful_articles(self, info, **kwargs):
         type = kwargs.get('typeId')
         if type:
-            return Article.objects.filter(type=type, helpful=True)
-        return Article.objects.filter(helpful=True)
+            return Article.objects.filter(type=type, helpful=True).order_by('created_at')
+        return Article.objects.filter(helpful=True).order_by('created_at')
     def resolve_type(self, info, oid):
         return Type.objects.filter(pk=oid)
