@@ -19,7 +19,7 @@ class ArticleNode(DjangoObjectType):
     class Meta:
         model = Article
         filter_fields = ['title']
-        filter_typeId = ['type']
+        filter_type_id = ['type']
         interfaces = (relay.Node, )
 
     oid = graphene.Field(graphene.Int)
