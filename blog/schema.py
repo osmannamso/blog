@@ -18,7 +18,7 @@ class ThemeNode(DjangoObjectType):
 class ArticleNode(DjangoObjectType):
     class Meta:
         model = Article
-        filter_fields = ['title', 'type']
+        filter_fields = ['type__name']
         interfaces = (relay.Node, )
 
     oid = graphene.Field(graphene.Int)
@@ -54,7 +54,7 @@ class Query(object):
     topic = DjangoFilterConnectionField(TopicNode, oid=graphene.Int())
     type = DjangoFilterConnectionField(TypeNode, oid = graphene.Int())
     all_themes = DjangoFilterConnectionField(ThemeNode)
-    all_articles = DjangoFilterConnectionField(ArticleNode, typeId=graphene.Int())
+    all_articles = DjangoFilterConnectionField(ArticleNode)
     all_helpful_articles = DjangoFilterConnectionField(ArticleNode, typeId=graphene.Int())
     all_topics = DjangoFilterConnectionField(TopicNode)
     all_types = DjangoFilterConnectionField(TypeNode)
@@ -71,9 +71,6 @@ class Query(object):
             return Article.objects.filter(type=type).order_by('created_at')
         return Article.objects.all().order_by('created_at')
     def resolve_all_helpful_articles(self, info, **kwargs):
-        type = kwargs.get('typeId')
-        if type:
-            return Article.objects.filter(type=type, helpful=True).order_by('created_at')
         return Article.objects.filter(helpful=True).order_by('created_at')
     def resolve_type(self, info, oid):
         return Type.objects.filter(pk=oid)
