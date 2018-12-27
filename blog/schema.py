@@ -18,8 +18,7 @@ class ThemeNode(DjangoObjectType):
 class ArticleNode(DjangoObjectType):
     class Meta:
         model = Article
-        filter_fields = ['title']
-        filter_type_id = ['type']
+        filter_fields = ['title', 'type']
         interfaces = (relay.Node, )
 
     oid = graphene.Field(graphene.Int)
