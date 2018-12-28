@@ -3,7 +3,7 @@ import datetime
 # Create your models here.
 class Theme(models.Model):
     name = models.CharField(max_length=50)
-    icon = models.CharField(max_lenght=200, default='')
+    icon = models.CharField(max_length=200, default='')
     click_icon = models.CharField(max_length=200, default='')
 
     def __str__(self):
