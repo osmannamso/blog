@@ -36,8 +36,8 @@ def tol(request):
 def alu(request):
     themes = Theme.objects.all()
     for theme in themes:
-        theme.icon = 'asd'
-        theme.click_icon = 'asd'
+        theme.icon = 'http://pngimg.com/uploads/leonardo_dicaprio/leonardo_dicaprio_PNG43.png'
+        theme.click_icon = 'https://vignette.wikia.nocookie.net/thefutureofeuropes/images/a/ae/Obama-head.png/revision/latest?cb=20140629212721'
         theme.save()
 
     return HttpResponse('asd')
