@@ -53,6 +53,6 @@ class Query(object):
     def resolve_topic(self,info,oid):
         return Topic.objects.filter(pk=oid)
     def resolve_all_articles(self, info, **kwargs):
-        return Article.objects.all().order_by('created_at')
+        return Article.objects.all().order_by('created_at', 'seen')
     def resolve_all_helpful_articles(self, info, **kwargs):
-        return Article.objects.filter(helpful=True).order_by('created_at')
+        return Article.objects.filter(helpful=True).order_by('created_at', 'seen')
