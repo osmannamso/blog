@@ -2,6 +2,7 @@ import graphene
 from graphene import relay, ObjectType
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
+from graphene import InputObjectType
 from .models import Theme,Article,Topic
 
 class ThemeNode(DjangoObjectType):
@@ -15,16 +16,33 @@ class ThemeNode(DjangoObjectType):
         return self.id
     def resolve_helpful(self, info, **kwargs):
         return self.helpful
+
+
 class ArticleNode(DjangoObjectType):
     class Meta:
         model = Article
-        filter_fields = ['helpful']
+        filter_fields = {
+            'title': ['exact', 'icontains'],
+            'helpful': ['exact']
+        }
         interfaces = (relay.Node, )
 
     oid = graphene.Field(graphene.Int)
 
     def resolve_oid(self, info, **kwargs):
         return self.id
+
+
+class AddSeen(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int()
+
+    ok = graphene.Boolean()
+
+    def mutate(self, info, id):
+        Article.AddSeen(Article, id)
+        return AddSeen(ok=True)
+
 
 class TopicNode(DjangoObjectType):
     class Meta:
@@ -37,7 +55,10 @@ class TopicNode(DjangoObjectType):
     def resolve_oid(self, info, **kwargs):
         return self.id
 
-class Query(object):
+class Mutation(graphene.ObjectType):
+    add_seen = AddSeen.Field()
+
+class Query(graphene.ObjectType):
     theme = DjangoFilterConnectionField(ThemeNode, oid=graphene.Int())
     article = DjangoFilterConnectionField(ArticleNode, oid=graphene.Int())
     topic = DjangoFilterConnectionField(TopicNode, oid=graphene.Int())

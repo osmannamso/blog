@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import F
+
 import datetime
 # Create your models here.
 class Theme(models.Model):
@@ -26,6 +28,9 @@ class Article(models.Model):
     helpful = models.BooleanField(default=False)
     seen = models.IntegerField(default=0)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    def AddSeen(self, id):
+        self.objects.filter(id=id).update(seen=F('seen') + 1)
 
     def __str__(self):
         return str(self.title)
